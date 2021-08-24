@@ -370,6 +370,7 @@ Select * from Account
 Select * from AccountType
 go
 
+--Question 1 - Create a view to get all customers with checking account from ON province.
 
 Create view CheckingAccount_ON
 as
@@ -378,6 +379,8 @@ join Account on Customer.AccountID=Account.AccountID
 Join AccountType on Account.AccountTypeID=AccountType.AccountTypeID
 where AccountTypeDescription='Checking Account' and State='ON'
 go
+
+--Question 2 - Create a view to get all customers with total account balance (including interest rate) greater than 5000
 
 Create view View_TotalAccountBal
 as
@@ -393,6 +396,8 @@ Select * from Account
 
 go
 
+--Question 3 - Create a view to get counts of checking and savings accounts by customer.
+
 Create view View_TotalAccounts
 as
 select CustomerID,CustomerFirstName,CustomerLastName,AccountTypeDescription, Count(Account.AccountTypeID) as TotalAccounts
@@ -404,6 +409,8 @@ go
 
 Select * from customer
 
+--Question 4 - Create a view to get any particular user’s login and password using AccountId.
+
 Create View View_AccountID_UsrPswd
 as
 Select Distinct CustomerID,UserLogins.UserLoginID,UserPassword
@@ -412,7 +419,7 @@ Join UserLogins on TransactionLog.UserLoginID=UserLogins.UserLoginID
 Where Transactionlog.AccountID = 1001031985
 go
 
-
+--Question 5 - Create a view to get all customers’ overdraft amount.
 
 Create View View_Customer_OD
 as
@@ -421,6 +428,8 @@ from Customer
 Join OverDraftLog on Customer.AccountID=OverDraftLog.AccountID
 go
 
+
+----Q6. Create a stored procedure to add "User_" as a prefix to everyone's login (username). 
 
 Create proc SP_Username
 as
@@ -436,7 +445,7 @@ select * from UserLogins
 go
 
 
-
+--Question 7 - Create a stored procedure that accepts AccountId as a parameter and returns customer’s full name.
 
 create proc spFullNameFromAccountId        
             @AccountID int,                
@@ -469,6 +478,8 @@ exec spFullNameFromAccountId 2999, @FullName out
 Print ' Full name is '+@FullName
 go
 
+----Q8. Create a stored procedure that returns error logs inserted in the last 24 hours. 
+
 Create proc SP_LoginErrorLog
 as
 begin
@@ -482,6 +493,8 @@ End
 
 exec SP_LoginErrorLog
 go
+
+--Q9. Create a stored procedure that takes a deposit as a parameter and updates CurrentBalance value for that particular account. 
 
 Create Proc Deposit_CurrentBalance
 			@AcctID int,@Deposit_Amt money
@@ -512,6 +525,8 @@ Exec Deposit_CurrentBalance 1001031985,500
 Exec Deposit_CurrentBalance 1001031333,500
 
 go
+
+--Q10. Create a stored procedure that takes a withdrawal amount as a parameter and updates CurrentBalance value for that particular account.
 
 Create Proc Withdrawal_CurrentBalance
 			@AcctID int,@Withdrawal_Amt money
