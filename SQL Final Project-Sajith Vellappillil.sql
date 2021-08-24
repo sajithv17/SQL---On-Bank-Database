@@ -1,6 +1,15 @@
+/* Project */
+/* ## MS-SQL PROJECT on Bank Database Design by Sajith Vellappillil ! */
+
+-- PHASE I of project begins 
+
+--Q1. Create a database for a banking application called 'Bank'. 
+
 create database Bank
 use bank
 go
+
+--Create table UserLogins
 
 Create table UserLogins
 (UserLoginID smallint primary key,
@@ -8,15 +17,21 @@ UserLogin char(15) not null,
 UserPassword varchar(20)not null)
 go
 
+--Create table UserSecurityQuestions
+
 create table UserSecurityQuestions
 (UserSecurityQuestionID tinyint primary key,
 UserSecurityQuestion varchar(50)not null)
 go
 
+--Create table AccountType
+
 Create table AccountType
 (AccountTypeID tinyint Primary key,
 AccountTypeDescription varchar(30))
 go
+
+--Create table SavingsInterestRates
 
 create table SavingsInterestRates
 (InterestSavingsRateID tinyint primary key,
@@ -24,10 +39,14 @@ InterestRateValue numeric(9,9) not null unique,
 InterestRateDescription varchar(20))
 go
 
+--Create table AccountStatusType
+
 Create table AccountStatusType
 (AccountStatusTypeID tinyint Primary key,
 AccountStatusDescription varchar(30))
 go
+
+--Create table Employee
 
 Create Table Employee
 (EmployeeID int primary key,
@@ -37,6 +56,8 @@ EmployeeLastName varchar(25)not null,
 EmployeesManager bit)
 go
 
+--Create table TransactionType
+
 Create table TransactionType
 (TransactionTypeID tinyint Primary key,
 TransactionTypeName char(10)not null,
@@ -44,10 +65,14 @@ TransactionTypeDescription varchar(50) not null,
 TransactionFeeAmount smallmoney not null)
 go
 
+--Create table FailedTransactionErrorType
+
 create table FailedTransactionErrorType
 (FailedTransactionErrorTypeID tinyint Primary key,
 FailedTransactionDescription varchar(50) not null)
 go
+
+--Create table LoginErrorLog
 
 Create table LoginErrorLog
 (ErrorLogID int Primary key,
@@ -55,11 +80,15 @@ ErrorTime datetime not null,
 FailedTransactionXML xml not null)
 go
 
+--Create table UserSecurityAnswers
+
 create table UserSecurityAnswers
 (UserLoginID smallint Primary key foreign key references UserLogins(UserLoginID),
 UserSecurityAnswer varchar(25)not null,
 UserSecurityQuestionID tinyint not null foreign key references UserSecurityQuestions (UserSecurityQuestionID))
 go
+
+--Create table Account 
 
 Create table Account
 (AccountID int Primary key,
@@ -68,6 +97,7 @@ AccountTypeID tinyint not null foreign key references AccountType(AccountTypeID)
 AccountStatusTypeID tinyint not null foreign key references AccountStatusType(AccountStatusTypeID),
 InterestSavingsRateID tinyint not null foreign key references SavingsInterestRates(InterestSavingsRateID))
 go
+
 
 alter table Account
 alter column currentbalance money not null 
@@ -80,6 +110,8 @@ create table "Login-Account"
 (UserLoginID smallint not null foreign key references UserLogins(UserLoginID),
 AccountID int not null foreign key references Account(AccountID))
 go
+
+
 
 create table OverDraftLog
 (AccountID int primary key foreign key references Account(AccountID),
